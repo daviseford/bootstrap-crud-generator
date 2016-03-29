@@ -28,17 +28,49 @@
 
 
 <body>
-<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <!-- Textarea -->
-    <div class="form-group">
-        <label class="col-md-4 control-label" for="textarea">Submit SQL Code here for parsing? I don't fucking know</label>
-        <div class="col-md-4">
-            <textarea class="form-control" id="textarea" name="textarea"></textarea>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <form id="sqlEntry" action="parse.php">
+                <!-- Textarea -->
+                <div class="form-group">
+                    <div class="col-md-5">
+                        <label class="control-label" for="textarea">Submit sample "SELECT" or "CREATE" SQL here. It will
+                            be
+                            parsed into a basic bootstrap CRUD application.</label>
+                        <h4 class="text-center">Sample Submission</h4>
+                <pre>----- Your PRIMARY Key should always be the first value modified -----
+    ----- CREATE Example -----
+    CREATE TABLE `sampleTable` (
+        `id` int(11) NOT NULL AUTO_INCREMENT,
+        `sampleName` text NOT NULL,
+        `sampleGroup` varchar(45) NOT NULL DEFAULT '',
+        `sampleURL` text NOT NULL
+        PRIMARY KEY (`id`),
+        UNIQUE KEY `id_UNIQUE` (`id`)
+    )   ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+    ----- UPDATE Example -----
+    UPDATE `sampleSchema`.`sampleTable`
+    SET
+    `id` = 1,
+    `adName` = 'Sample',
+    `adGroup` = 'Sample',
+    `adURL` = 'Sample',
+    WHERE `id` = 1;
+                </pre>
+                    </div>
+                    <div class="col-md-5">
+                        <textarea class="form-control" id="textarea" name="textarea" rows="15"></textarea>
+                    </div>
+                </div>
+
+                <input type="submit" class="btn btn-info" value="Create CRUD">
+            </form>
         </div>
     </div>
+
 </div>
-
-
 
 </body>
 </html>
