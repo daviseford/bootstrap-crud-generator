@@ -15,7 +15,7 @@ if (!empty($parsed['table']) && !empty($parsed['columns'])) {
 
 function download_ListPHP($tableName, $arrayOfColumns)
 {
-    $file = 'list.php';
+    $file = 'new.php';
 
     //open file and get data
     $data = file_get_contents($file);
@@ -26,8 +26,8 @@ function download_ListPHP($tableName, $arrayOfColumns)
 
 
     //save it back:
-    file_put_contents("make/list.php", $data);
-    $newFile = "make/list.php";
+    file_put_contents("make/new.php", $data);
+    $newFile = "make/new.php";
     if (file_exists($newFile)) {
         header('Content-Description: File Transfer');
         header('Content-Type: application/octet-stream');

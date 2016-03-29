@@ -7,7 +7,7 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="Page Description">
     <meta name="author" content="Author">
-    <title>List</title>
+    <title>New</title>
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -31,33 +31,50 @@
             require_once(__DIR__ . '/config.php');
             if (isset($_POST['submitted'])) {
                 foreach ($_POST AS $key => $value) {
-                    $_POST[$key] = mysql_real_escape_string($value);
+                    $_POST[$key] = mysql_escape_mimic($value);
                 }
-                $sql = "INSERT INTO `generator_Ads` 
-              ( `adName` ,  `adGroup` ,  `adURL` ,  `adDescription` ,  `template` ,  `imageURL` ,  
-              `imageWidth` ,  `imageHeight` ,  `enabled` ,  `highlight` ,  `isInline` ,  `inlineHeader` ,  
-              `inlineText`  ) VALUES(  '{$_POST['adName']}' ,  '{$_POST['adGroup']}' ,  '{$_POST['adURL']}' ,  '{$_POST['adDescription']}' ,  '{$_POST['template']}' ,  '{$_POST['imageURL']}' ,  '{$_POST['imageWidth']}' ,  '{$_POST['imageHeight']}' ,  '{$_POST['enabled']}' ,  '{$_POST['highlight']}' ,  '{$_POST['isInline']}' ,  '{$_POST['inlineHeader']}' ,  '{$_POST['inlineText']}'  ) ";
-                mysql_query($sql) or die(mysql_error());
-                echo "Added row.<br />";
+
+                $valueString = join("', '", $_POST);
+                $sql = "INSERT INTO {{TABLE}} 
+              ( {{COLUMNS}}  ) VALUES( '$valueString' ) ";
+                mySqlQuery($sql);
+                echo '<div class="col-md-12 text-center">';
+                echo "<h3>Added row!<br /></h3>";
                 echo "<a href='list.php'>Back To Listing</a>";
+                echo '</div>';
             }
             ?>
 
-            <form class="form-control" action='' method='POST'>
-                <p><b>AdName:</b><br/><textarea name='adName'></textarea>
-                <p><b>AdGroup:</b><br/><input type='text' name='adGroup'/>
-                <p><b>AdURL:</b><br/><textarea name='adURL'></textarea>
-                <p><b>AdDescription:</b><br/><textarea name='adDescription'></textarea>
-                <p><b>Template:</b><br/><input type='text' name='template'/>
-                <p><b>ImageURL:</b><br/><input type='text' name='imageURL'/>
-                <p><b>ImageWidth:</b><br/><input type='text' name='imageWidth'/>
-                <p><b>ImageHeight:</b><br/><input type='text' name='imageHeight'/>
-                <p><b>Enabled:</b><br/><input type='text' name='enabled'/>
-                <p><b>Highlight:</b><br/><input type='text' name='highlight'/>
-                <p><b>IsInline:</b><br/><input type='text' name='isInline'/>
-                <p><b>InlineHeader:</b><br/><textarea name='inlineHeader'></textarea>
-                <p><b>InlineText:</b><br/><textarea name='inlineText'></textarea>
-                <p><input type='submit' value='Add Row'/><input type='hidden' value='1' name='submitted'/>
+            <form class="form-horizontal" action='' method='POST'>
+
+                <?php
+                function getHeaders()
+                {
+                    $sql = "SELECT * FROM {{TABLE}} LIMIT 1;";
+                    $result = mySqlQuery($sql);
+
+                    if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            $headers = array_keys($row);
+                        }
+                    }
+                    array_shift($headers);
+                    if (!empty($headers)) {
+                        for ($i = 0; $i < count($headers); $i++) {
+                            $label = $headers[$i];
+                            echo '<div class="form-group">';
+                            echo '<label class="col-md-4 control-label" for="' . $label . '">' . $label . '</label>';
+                            echo '<div class="col-md-4">';
+                            echo '<input id="' . $label . '" name="' . $label . '" type="text" class="form-control input-md">';
+                            echo '</div></div>';
+                        }
+                    }
+                }
+
+                getHeaders();
+                ?>
+                <button role="button" class="btn btn-md btn-primary" type='submit'>Add Row</button>
+                <input type='hidden' value='1' name='submitted'/>
             </form>
 
         </div>
