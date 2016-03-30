@@ -31,7 +31,7 @@
     <div class="row">
         <div class="col-md-12">
             <h2>Bootstrap CRUD Generator <br/>
-                <small>A painless way to create PHP/MySQL/Boostrap CRUD apps</small>
+                <small>A painless way to create PHP/MySQL/Bootstrap CRUD apps</small>
             </h2>
             <p>Generate a basic Bootstrap-themed CRUD (Create, Read, Update, Delete) application
                 based on your MySQL SELECT, UPDATE, or CREATE query.</p>
@@ -49,11 +49,17 @@
                 <!-- Textarea -->
                 <div class="form-group">
                     <div class="col-md-5">
-                        <label class="control-label" for="textarea">Submit sample "SELECT" or "CREATE" SQL to the right.
+                        <label class="control-label" for="textarea">Submit sample "SELECT", "UPDATE", or "CREATE" SQL
+                            query to
+                            the right.
                             It will
                             be parsed into a basic bootstrap CRUD application.</label>
                         <h4 class="text-center">Sample Submission</h4>
-                <pre>----- You MUST have a key named `id` at the moment -----
+<pre>
+/*-----------------------------------------------*\
+You MUST have a key named `id` at the moment.
+Future versions may do away with that requirement
+/*-----------------------------------------------*\
 
 ----- CREATE Example -----
 CREATE TABLE `sampleTable` (

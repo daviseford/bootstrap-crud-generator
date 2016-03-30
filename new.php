@@ -78,8 +78,8 @@
                             $headers = array_keys($row);
                         }
                     }
-                    array_shift($headers);
-                    if (!empty($headers)) {
+                    if (!empty($headers) && count($headers) > 1) {
+                        array_shift($headers);
                         for ($i = 0; $i < count($headers); $i++) {
                             $label = $headers[$i];
                             echo '<div class="form-group">';
