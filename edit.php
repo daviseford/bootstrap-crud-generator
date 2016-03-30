@@ -10,7 +10,7 @@
     <title>New</title>
 
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -19,8 +19,8 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- jQuery -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
 </head>
 <body>
 
@@ -99,6 +99,7 @@
                                     $label = $headers[$i];
                                     echo '<div class="form-group">';
                                     echo '<label class="col-md-4 control-label" for="' . $label . '">' . $label . '</label>';
+
                                     echo '<div class="col-md-4">';
                                     echo '<input id="' . $label . '" name="' . $label . '" type="text" class="form-control input-md" value="' . htmlspecialchars(stripslashes($row[$label])) . '">';
                                     echo '</div></div>';
@@ -110,8 +111,13 @@
 
 
                 ?>
-                <button role="button" class="btn btn-md btn-primary" type='submit'>Edit Row</button>
-                <input type='hidden' value='1' name='submitted'/>
+                <div class="form-group text-center">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4 text-center">
+                        <button role="button" class="btn btn-md btn-primary" type='submit'>Edit Row</button>
+                        <input type='hidden' value='1' name='submitted'/>
+                    </div>
+                </div>
             </form>
 
         </div>

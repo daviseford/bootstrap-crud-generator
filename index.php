@@ -9,8 +9,8 @@
     <meta name="author" content="Davis E. Ford">
     <title>Bootstrap CRUD Generator</title>
 
-    <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -19,8 +19,8 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- jQuery -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
 
 </head>
 
@@ -49,11 +49,11 @@
                 <!-- Textarea -->
                 <div class="form-group">
                     <div class="col-md-5">
-                        <label class="control-label" for="textarea">Submit sample "SELECT" or "CREATE" SQL here. It will
-                            be
-                            parsed into a basic bootstrap CRUD application.</label>
+                        <label class="control-label" for="textarea">Submit sample "SELECT" or "CREATE" SQL to the right.
+                            It will
+                            be parsed into a basic bootstrap CRUD application.</label>
                         <h4 class="text-center">Sample Submission</h4>
-                <pre>----- Your PRIMARY Key must be named `id` -----
+                <pre>----- You MUST have a key named `id` at the moment -----
 
 ----- CREATE Example -----
 CREATE TABLE `sampleTable` (
@@ -61,7 +61,6 @@ CREATE TABLE `sampleTable` (
   `configValue` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 
 ----- UPDATE Example -----
 UPDATE `sampleSchema`.`sampleTable`
@@ -92,7 +91,7 @@ WHERE `id` = 1;
                 Extract the .php files to your application directory.<br/>
                 Open up config.php and fill in the MySQL parameters.<br/>
                 Now open list.php. You'll get a nicely formatted table of your selection.</p>
-
+            <p class="bg-primary">You MUST have a column named `id` in your SQL for this CRUD generator to work.</p>
         </div>
     </div>
 

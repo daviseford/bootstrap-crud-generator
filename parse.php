@@ -1,21 +1,38 @@
 <?php
 
-namespace PHPSQLParser; // Google MySQL Parser
+namespace PHPSQLParser; // Load PHPSQLParser
+use Exception;          // Make sure we can use try/catch blocks
+
 require_once dirname(__FILE__) . '/php/PHP-SQL-Parser/src/PHPSQLParser/PHPSQLParser.php';
 
-$sql = $_REQUEST['textarea'];
+if (!empty($_REQUEST['textarea'])) {
+    $sql = $_REQUEST['textarea'];
+    if (!empty($sql)) {
+        try {
+            $parsed = parsePOSTSql($sql);
 
-if (!empty($sql)) {
-    $parsed = parsePOSTSql($sql);
+            if (!$parsed) {
+                throw new Exception('Problem with PHP SQL Parser');
+            }
 
-    if (!empty($parsed['table']) && !empty($parsed['columns']) && is_array($parsed['columns'])) {
-        download_ListPHP($parsed['table'], $parsed['columns']);
+            if (!empty($parsed['table']) && !empty($parsed['columns']) && is_array($parsed['columns'])) {
+                download_ListPHP($parsed['table'], $parsed['columns']);
+            } else {
+                throw new Exception('Error: Something is missing');
+            }
+
+        } catch
+        (Exception $e) {
+            echo 'Exception: ';
+            echo $e->getMessage();
+        }
     } else {
-        echo 'Error: Something is missing';
+        echo 'Error: MySQL query is empty';
     }
 } else {
-    echo 'Error: MySQL query is empty';
+    echo 'Error: MySQL query is empty:';
 }
+
 
 function download_ListPHP($tableName, $arrayOfColumns)
 {
