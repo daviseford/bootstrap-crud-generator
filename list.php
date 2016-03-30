@@ -25,10 +25,19 @@
 <body>
 
 <div class="container">
+
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <h1>List</h1>
+        </div>
+    </div>
+    
+    <div class="row clearfix"></div>
+    
     <div class="row">
         <div class="col-md-12 table-responsive">
 
-            <table class="table table-hover">
+            <table class="table table-condensed">
                 <thead>
                 <tr>
                     <?
@@ -64,13 +73,13 @@
                     if ($result->num_rows > 0) {
                         while ($row = $result->fetch_assoc()) {
                             echo '<tr>';
+                            echo "<td><a role='button' class='btn btn-sm btn-primary' href='edit.php?id=" . $row['id'] . "'>Edit</a></td>";
+                            echo "<td><a role='button' class='btn btn-sm btn-danger' href='delete.php?id=" . $row['id'] . "'>Delete</a></td>";
                             $keys = array_keys($row);
                             $keys[0];
                             for ($i = 0; $i < count($keys); $i++) {
-                                echo '<td>' . $row[$keys[$i]] . '</td>';
+                                echo '<td>' . htmlspecialchars(stripslashes($row[$keys[$i]])) . '</td>';
                             }
-                            echo "<td><a role='button' class='btn btn-sm btn-primary' href=edit.php?" . $keys[0] . "={$row[$keys[0]]}>Edit</a></td>";
-                            echo "<td><a role='button' class='btn btn-sm btn-danger' href=delete.php?" . $keys[0] . "={$row[$keys[0]]}>Delete</a></td>";
                             echo '</tr>';
                         }
                     }
@@ -83,7 +92,7 @@
                 </tbody>
             </table>
         </div>
-        <a href=new.php>New Row</a>
+        <a role="button" class="btn btn-primary" href='new.php'>New Row</a>
     </div>
 
 </div>

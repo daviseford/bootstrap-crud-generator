@@ -1,7 +1,6 @@
 <?php
-//namespace PHPSQL;
 
-namespace PHPSQLParser;
+namespace PHPSQLParser; // Google MySQL Parser
 require_once dirname(__FILE__) . '/php/PHP-SQL-Parser/src/PHPSQLParser/PHPSQLParser.php';
 
 $sql = $_REQUEST['textarea'];
@@ -15,31 +14,77 @@ if (!empty($parsed['table']) && !empty($parsed['columns'])) {
 
 function download_ListPHP($tableName, $arrayOfColumns)
 {
-    $file = 'new.php';
+    $randomAsset = rand(0, 9999);
 
-    //open file and get data
+    // Make a temporary directory to store the files
+    exec('mkdir make/' . $randomAsset);
+
+    // Copy Readme
+    $file = 'README.md';
     $data = file_get_contents($file);
+    file_put_contents("make/" . $randomAsset . "/README.md", $data);
 
-    // do replacements
+    // Copy Config
+    $file = 'config.php';
+    $data = file_get_contents($file);
+    file_put_contents("make/" . $randomAsset . "/config.php", $data);
+
+    // Update New
+    $file = 'new.php';
+    $data = file_get_contents($file);
     $data = str_replace("{{TABLE}}", $tableName, $data);
     $data = str_replace("{{COLUMNS}}", join(',', $arrayOfColumns), $data);
+    // Save it back:
+    file_put_contents("make/" . $randomAsset . "/new.php", $data);
 
+    // Update Delete
+    $file = 'delete.php';
+    $data = file_get_contents($file);
+    $data = str_replace("{{TABLE}}", $tableName, $data);
+    // Save it back:
+    file_put_contents("make/" . $randomAsset . "/delete.php", $data);
 
-    //save it back:
-    file_put_contents("make/new.php", $data);
-    $newFile = "make/new.php";
-    if (file_exists($newFile)) {
+    // Update List
+    $file = 'list.php';
+    $data = file_get_contents($file);
+    $data = str_replace("{{TABLE}}", $tableName, $data);
+    $data = str_replace("{{COLUMNS}}", join(',', $arrayOfColumns), $data);
+    // Save it back:
+    file_put_contents("make/" . $randomAsset . "/list.php", $data);
+
+    // Update Edit
+    $file = 'edit.php';
+    $data = file_get_contents($file);
+    $data = str_replace("{{TABLE}}", $tableName, $data);
+    $data = str_replace("{{COLUMNS}}", join(',', $arrayOfColumns), $data);
+    // Save it back:
+    file_put_contents("make/" . $randomAsset . "/edit.php", $data);
+
+    // Create a semi-random filename
+    $zipname = "make/" . $randomAsset . "/" . $randomAsset . "_bootstrap-crud-generator.zip";
+
+    // Run a shell command to zip the files for us
+    exec('zip -r ' . $zipname . ' make/' . $randomAsset);
+
+    if (file_exists($zipname)) {
+        ignore_user_abort(true);    // Delete the file even if the user aborts
         header('Content-Description: File Transfer');
         header('Content-Type: application/octet-stream');
-        header('Content-Disposition: attachment; filename="' . basename($newFile) . '"');
+        header('Content-Disposition: attachment; filename="' . basename($zipname) . '"');
         header('Expires: 0');
         header('Cache-Control: must-revalidate');
         header('Pragma: public');
-        header('Content-Length: ' . filesize($newFile));
-        readfile($newFile);
+        header('Content-Length: ' . filesize($zipname));
+        readfile($zipname); // Send the file to the user
+        unlink($zipname);   // Delete the zip file once sent
+
+        $dirName = 'make/' . $randomAsset;
+        array_map('unlink', glob($dirName . '/*.*'));   //Remove the newly created .php files
+        rmdir($dirName);    // Remove the directory
         exit;
     }
 }
+
 
 function runGoogleParserOnMySQL($sql)
 {

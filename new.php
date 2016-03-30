@@ -25,6 +25,15 @@
 <body>
 
 <div class="container">
+
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <h1>New Row</h1>
+        </div>
+    </div>
+
+    <div class="row clearfix"></div>
+
     <div class="row">
         <div class="col-md-12">
             <?php
@@ -73,7 +82,7 @@
 
                 getHeaders();
                 ?>
-                <button role="button" class="btn btn-md btn-primary" type='submit'>Add Row</button>
+                <button role="button" class="btn btn-primary" type='submit'>Add Row</button>
                 <input type='hidden' value='1' name='submitted'/>
             </form>
 

@@ -4,10 +4,10 @@
 function mySqlQuery($query)
 {
 
-    $password = '';
-    $username = '';
-    $servername = '';
-    $dbName = '';
+    $password = '';         // IMPORTANT: FILL THESE OUT
+    $username = '';         // IMPORTANT: FILL THESE OUT
+    $servername = '';       // IMPORTANT: FILL THESE OUT
+    $dbName = '';           // IMPORTANT: FILL THESE OUT
 
     $conn = new mysqli($servername, $username, $password, $dbName);
 

@@ -39,7 +39,7 @@
                             be
                             parsed into a basic bootstrap CRUD application.</label>
                         <h4 class="text-center">Sample Submission</h4>
-                <pre>----- Your PRIMARY Key should always be the first value modified -----
+                <pre>----- Your PRIMARY Key must be named `id` -----
     ----- CREATE Example -----
     CREATE TABLE `sampleTable` (
         `id` int(11) NOT NULL AUTO_INCREMENT,
