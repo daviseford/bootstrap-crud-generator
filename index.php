@@ -21,14 +21,28 @@
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <!--        <script src="js/bootstrap.min.js"></script>-->
 
 </head>
 
 
 <body>
 <div class="container">
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Bootstrap CRUD Generator <br/>
+                <small>A painless way to create PHP/MySQL/Boostrap CRUD apps</small>
+            </h2>
+            <p>Generate a basic Bootstrap-themed CRUD (Create, Read, Update, Delete) application
+                based on your MySQL SELECT, UPDATE, or CREATE query.</p>
+            <p>This application takes advantage of GreenLion's <a href="https://github.com/greenlion/PHP-SQL-Parser">PHP
+                    SQL Parser</a>.</p>
+            <p>Download the source from <a href="https://github.com/daviseford/bootstrap-crud-generator">Github</a>.</p>
+        </div>
+    </div>
+
+    <hr/>
+
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <form id="sqlEntry" action="parse.php">
@@ -40,37 +54,59 @@
                             parsed into a basic bootstrap CRUD application.</label>
                         <h4 class="text-center">Sample Submission</h4>
                 <pre>----- Your PRIMARY Key must be named `id` -----
-    ----- CREATE Example -----
-    CREATE TABLE `sampleTable` (
-        `id` int(11) NOT NULL AUTO_INCREMENT,
-        `sampleName` text NOT NULL,
-        `sampleGroup` varchar(45) NOT NULL DEFAULT '',
-        `sampleURL` text NOT NULL
-        PRIMARY KEY (`id`),
-        UNIQUE KEY `id_UNIQUE` (`id`)
-    )   ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-    ----- UPDATE Example -----
-    UPDATE `sampleSchema`.`sampleTable`
-    SET
-    `id` = 1,
-    `adName` = 'Sample',
-    `adGroup` = 'Sample',
-    `adURL` = 'Sample',
-    WHERE `id` = 1;
-                </pre>
+----- CREATE Example -----
+CREATE TABLE `sampleTable` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `configValue` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+----- UPDATE Example -----
+UPDATE `sampleSchema`.`sampleTable`
+SET
+`id` = 1,
+`configValue` = 'value'
+WHERE `id` = 1;
+</pre>
                     </div>
                     <div class="col-md-5">
-                        <textarea class="form-control" id="textarea" name="textarea" rows="15"></textarea>
+                        <textarea class="form-control" id="textarea" name="textarea" rows="16"></textarea>
+                        <br/>
+                        <button type="submit" role="button" class="btn btn-primary btn-block">
+                            Create CRUD Application
+                        </button>
                     </div>
                 </div>
-
-                <input type="submit" class="btn btn-info" value="Create CRUD">
             </form>
         </div>
     </div>
 
+    <div class="row clearfix"></div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <p class="lead">Instructions</p>
+            <p>Paste a MySQL CREATE, UPDATE, or SELECT statement for a table in the textarea. <br/>
+                Extract the .php files to your application directory.<br/>
+                Open up config.php and fill in the MySQL parameters.<br/>
+                Now open list.php. You'll get a nicely formatted table of your selection.</p>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <p class="small">Developed by <a href="http://daviseford.com">Davis Ford</a>, 2016
+                <br/>
+                Based on the function of <a href="http://www.phpscaffold.com/">phpScaffold</a>, I've just
+                reworked it
+                with Bootstrap.</p>
+        </div>
+    </div>
 </div>
+
 
 </body>
 </html>

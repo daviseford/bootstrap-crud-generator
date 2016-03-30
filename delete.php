@@ -29,15 +29,23 @@
         <div class="col-md-12 text-center">
             <?php
             require_once(__DIR__ . '/config.php');
-            if (isset($_GET['id'])) {
-                $id = (int)$_GET['id'];
-                $sql = "DELETE FROM {{TABLE}} WHERE `id` = '$id'; LIMIT 1";
-                mySqlQuery($sql);
+            if (isset($_REQUEST['id'])) {
+                $id = (int)$_REQUEST['id'];
+                $sql = "DELETE FROM {{TABLE}} WHERE `id` = $id LIMIT 1;";
+                $result = mySqlQuery($sql);
+                if ($result) {
+                    echo '<h1>Deleted!</h1>';
+                    echo '<a role="button" class="btn btn-primary" href="list.php">Back To Listing</a>';
+                } else {
+                    echo '<h1>Error!</h1>';
+                    echo '<pre>';
+                    var_dump($result);
+                    var_dump($sql);
+                    echo '</pre>';
+                    echo '<a role="button" class="btn btn-primary" href="list.php">Back To Listing</a>';
+                }
             }
             ?>
-            <h1>Deleted!</h1>
-            <a role="button" class="btn btn-primary" href='list.php'>Back To Listing</a>
-
 
         </div>
     </div>

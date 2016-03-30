@@ -49,3 +49,5 @@ Temporary Items
 # PHP shit
 php/PHP-SQL-Parser/
 php/PHPSQL/
+.idea/workspace.xml
+*.xml

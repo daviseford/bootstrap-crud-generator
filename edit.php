@@ -33,32 +33,47 @@
     </div>
 
     <div class="row clearfix"></div>
-    
+
     <div class="row">
         <div class="col-md-12">
             <?php
             require_once(__DIR__ . '/config.php');
 
-            if (isset($_GET['id'])) {
-                $id = (int)$_GET['id'];
+            if (isset($_REQUEST['id'])) {
+                $id = (int)$_REQUEST['id'];
                 if (isset($_POST['submitted'])) {
                     $insertHolder = array();
                     foreach ($_POST AS $key => $value) {
                         $_POST[$key] = mysql_escape_mimic($value);
-                        $insertHolder[] = "`" . $_POST[$key] . "` = '{$value}''";
+                        if ($key === 'id') {
+                            $id = (int)$value;
+                            $insertHolder[] = "`" . $key . "` = '{$id}'";
+                        }
+                        if ($key !== 'submitted') {
+                            $insertHolder[] = "`" . $key . "` = '{$value}'";
+                        }
                     }
 
 
                     if (!empty($insertHolder)) {
-                        $valueString = join("', '", $insertHolder);
-                        $sql = "UPDATE {{TABLE}} 
-                                SET '$valueString'  
-                                WHERE `id` = '$id' ";
-                        mySqlQuery($sql);
-                        echo '<div class="col-md-12 text-center">';
-                        echo "<h3>Edited row!<br /></h3>";
-                        echo "<a href='list.php'>Back To Listing</a>";
-                        echo '</div>';
+                        $valueString = join(", ", $insertHolder);
+                        $sql = "UPDATE {{TABLE}} SET $valueString WHERE `id` = $id LIMIT 1;";
+                        $result = mySqlQuery($sql);
+                        if ($result !== false) {
+                            echo '<div class="col-md-12 text-center">';
+                            echo "<h3>Edited row!</h3><br />";
+                            echo '<a role="button" class="btn btn-primary" href="list.php">Back To Listing</a>';
+                            echo '<br /></div>';
+                        } else {
+                            echo '<div class="col-md-12 text-center">';
+                            echo "<h3>Failed!</h3><br />";
+                            echo '<pre>';
+                            var_dump($result);
+                            var_dump($sql);
+                            echo '</pre>';
+                            echo '<br /></div>';
+                        }
+
                     }
                 }
             }

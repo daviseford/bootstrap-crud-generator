@@ -5,12 +5,17 @@ require_once dirname(__FILE__) . '/php/PHP-SQL-Parser/src/PHPSQLParser/PHPSQLPar
 
 $sql = $_REQUEST['textarea'];
 
-$parsed = parsePOSTSql($sql);
+if (!empty($sql)) {
+    $parsed = parsePOSTSql($sql);
 
-if (!empty($parsed['table']) && !empty($parsed['columns'])) {
-    download_ListPHP($parsed['table'], $parsed['columns']);
+    if (!empty($parsed['table']) && !empty($parsed['columns']) && is_array($parsed['columns'])) {
+        download_ListPHP($parsed['table'], $parsed['columns']);
+    } else {
+        echo 'Error: Something is missing';
+    }
+} else {
+    echo 'Error: MySQL query is empty';
 }
-
 
 function download_ListPHP($tableName, $arrayOfColumns)
 {
@@ -100,7 +105,7 @@ function parsePOSTSql($sql)
 
         $parsed = runGoogleParserOnMySQL($sql);
 
-        if (!empty($parsed)) {
+        if (!empty($parsed) && is_array($parsed)) {
 
             if (!empty($parsed['SELECT']) && is_array($parsed['SELECT'])) {
                 $columnNames = parse_select($parsed['SELECT']);
@@ -120,28 +125,20 @@ function parsePOSTSql($sql)
                 if (!empty($parsed['TABLE']['create-def'])) {
                     $columnNames = parse_createdef($parsed['TABLE']['create-def']);
                 }
-
                 if (!empty($parsed['TABLE']['name'])) {
                     $tableName = $parsed['TABLE']['name'];
                 }
-            } else if (!empty($parsed['FROM'])) {
-                if (!empty($parsed['FROM'][0])) {
-                    if (!empty($parsed['FROM'][0]['table'])) {
-                        $tableName = $parsed['FROM'][0]['table'];
-                    }
-                }
+
+            } else if (!empty($parsed['FROM']) && !empty($parsed['FROM'][0]) && !empty($parsed['FROM'][0]['table'])) {
+                $tableName = $parsed['FROM'][0]['table'];
             }
 
 
             if (!empty($tableName)) {
                 $response['table'] = $tableName;
-//                echo $tableName;
             }
             if (!empty($columnNames)) {
                 $response['columns'] = $columnNames;
-//                echo '<pre>';
-//                var_dump($columnNames);
-//                echo '</pre>';
             }
 
         }

@@ -46,11 +46,22 @@
                 $valueString = join("', '", $_POST);
                 $sql = "INSERT INTO {{TABLE}} 
               ( {{COLUMNS}}  ) VALUES( '$valueString' ) ";
-                mySqlQuery($sql);
-                echo '<div class="col-md-12 text-center">';
-                echo "<h3>Added row!<br /></h3>";
-                echo "<a href='list.php'>Back To Listing</a>";
-                echo '</div>';
+                $result = mySqlQuery($sql);
+                if ($result !== false) {
+                    echo '<div class="col-md-12 text-center">';
+                    echo "<h3>Added row!</h3><br />";
+                    echo '<a role="button" class="btn btn-primary" href="list.php">Back To Listing</a>';
+                    echo '<br /></div>';
+                } else {
+                    echo '<div class="col-md-12 text-center">';
+                    echo "<h3>Error!</h3><br />";
+                    echo '<pre>';
+                    var_dump($result);
+                    var_dump($sql);
+                    echo '</pre>';
+                    echo '<a role="button" class="btn btn-primary" href="list.php">Back To Listing</a>';
+                    echo '<br /></div>';
+                }
             }
             ?>
 
