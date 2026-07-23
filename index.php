@@ -45,7 +45,7 @@
 
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <form id="sqlEntry" action="parse.php">
+            <form id="sqlEntry" action="parse.php" method="post" accept-charset="UTF-8">
                 <!-- Textarea -->
                 <div class="form-group">
                     <div class="col-md-5">

@@ -1,35 +1,39 @@
 <?php
 
-/* You will need to fill out the empty variables to connect to your MySQL instance. */
-function mySqlQuery($query)
+declare(strict_types=1);
+
+/**
+ * Create a UTF-8 PDO connection for the generated CRUD application.
+ */
+function db(): PDO
 {
+    static $connection = null;
 
-    $password = '';         // IMPORTANT: FILL THESE OUT
-    $username = '';         // IMPORTANT: FILL THESE OUT
-    $servername = '';       // IMPORTANT: FILL THESE OUT
-    $dbName = '';           // IMPORTANT: FILL THESE OUT
-
-    $conn = new mysqli($servername, $username, $password, $dbName);
-
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
+    if ($connection instanceof PDO) {
+        return $connection;
     }
-    $result = $conn->query($query);
 
-    $conn->close();
+    $host = '';       // Database host, for example: localhost
+    $database = '';   // Database name
+    $username = '';   // Database user
+    $password = '';   // Database password
 
-    return $result;
+    $dsn = "mysql:host={$host};dbname={$database};charset=utf8mb4";
+    $connection = new PDO($dsn, $username, $password, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        PDO::ATTR_EMULATE_PREPARES => false,
+    ]);
+
+    return $connection;
 }
 
-function mysql_escape_mimic($inp)
+/**
+ * Escape a value before placing it in HTML.
+ *
+ * @param mixed $value
+ */
+function e($value): string
 {
-    if (is_array($inp))
-        return array_map(__METHOD__, $inp);
-
-    if (!empty($inp) && is_string($inp)) {
-        return str_replace(array('\\', "\0", "\n", "\r", "'", '"', "\x1a"), array('\\\\', '\\0', '\\n', '\\r', "\\'", '\\"', '\\Z'), $inp);
-    }
-
-    return $inp;
+    return htmlspecialchars((string) $value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 }

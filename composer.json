@@ -1,0 +1,19 @@
+{
+    "name": "daviseford/bootstrap-crud-generator",
+    "description": "Generate a small Bootstrap/PHP CRUD application from a MySQL statement.",
+    "require": {
+        "php": ">=7.4",
+        "ext-pdo": "*",
+        "ext-pdo_mysql": "*",
+        "ext-zip": "*",
+        "greenlion/php-sql-parser": "^4.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "BootstrapCrudGenerator\\": "src/"
+        }
+    },
+    "scripts": {
+        "test": "php tests/run.php"
+    }
+}

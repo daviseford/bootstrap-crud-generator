@@ -51,3 +51,8 @@ php/PHP-SQL-Parser/
 php/PHPSQL/
 .idea/workspace.xml
 *.xml
+
+# Composer dependencies and generated archives
+/vendor/
+/make/
+*.zip
