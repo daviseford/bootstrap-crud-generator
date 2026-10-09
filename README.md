@@ -90,7 +90,8 @@ composer test
 ```
 
 The suite covers large schemas, SQL comments, UTF-8 input, `SELECT`/`UPDATE` compatibility, template rendering, and
-ZIP generation. It does not need a database.
+ZIP generation. It also fails if a PHP file outside the known entry points, templates, `src/`, and `tests/` appears,
+because `php -S` would serve it. It does not need a database.
 
 The two historical issue reports addressed by the current implementation are [large tables submitted through GET](https://github.com/daviseford/bootstrap-crud-generator/issues/3)
 and [column comments/UTF-8 data](https://github.com/daviseford/bootstrap-crud-generator/issues/1).
