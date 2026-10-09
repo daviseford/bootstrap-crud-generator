@@ -115,6 +115,36 @@ $tests['uses POST submission and utf8mb4 connections'] = function (): void {
     assertNotContains('$_REQUEST', $parse);
 };
 
+$tests['serves only known PHP files from the web root'] = function (): void {
+    // `php -S` serves the whole checkout, so any stray PHP script becomes a public endpoint.
+    $root = dirname(__DIR__);
+    $files = new RecursiveIteratorIterator(new RecursiveCallbackFilterIterator(
+        new RecursiveDirectoryIterator($root, FilesystemIterator::SKIP_DOTS),
+        static fn (SplFileInfo $file): bool => !in_array($file->getFilename(), ['.git', 'vendor'], true)
+    ));
+
+    $found = [];
+    foreach ($files as $file) {
+        if ($file->getExtension() === 'php') {
+            $found[] = str_replace('\\', '/', substr($file->getPathname(), strlen($root) + 1));
+        }
+    }
+    sort($found);
+
+    assertSame([
+        'config.php',
+        'delete.php',
+        'edit.php',
+        'index.php',
+        'list.php',
+        'new.php',
+        'parse.php',
+        'src/ApplicationGenerator.php',
+        'src/SchemaParser.php',
+        'tests/run.php',
+    ], $found);
+};
+
 $tests['builds a complete zip archive'] = function (): void {
     $archivePath = (new ApplicationGenerator(dirname(__DIR__)))->buildArchive([
         'table' => 'contacts',
